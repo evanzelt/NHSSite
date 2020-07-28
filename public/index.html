@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>BPHS NHS - Home</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Universal style sheet -->
+  <link href="./css/styles.css" rel="stylesheet">
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="">Bethel Park NHS</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="">Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <!-- Jumbotron Header -->
+    <header class="jumbotron my-4">
+      <h1 class="display-3">Bethel Park NHS</h1>
+      <p class="lead">Welcome to the Bethel Park National Honors Society Website! Here you can view and sign up for various NHS events.</p>
+    </header>
+
+    <!-- Page Features -->
+    <div class="row text-center">
+
+      <template id="event-card-template">
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card h-100">
+            <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+            <div class="card-body">
+              <h4 class="card-title"></h4>
+              <p class="card-text"></p>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+  <!-- Footer -->
+  <div id="layoutAuthentication_footer">
+    <footer class="py-4 bg-light mt-auto">
+        <div class="container-fluid">
+            <div class="d-flex align-items-center justify-content-between small">
+                <div class="text-muted">Copyright &copy; Your Website 2020</div>
+                <div>
+                    <a href="#">Privacy Policy</a>
+                    &middot;
+                    <a href="#">Terms &amp; Conditions</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+  </div>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom styling -->
+  <style>
+    nav { 
+      background-color: var(--blue);
+    }
+  </style>
+
+  <!-- Fetch the events from api and output them -->
+  <script>
+    const eventTemplate = document.querySelector("#event-card-template");
+
+    const getEvents = async () => {
+      let response = await fetch("/api/events");
+      for(event of await response.json()) {
+        displayEvent(event);
+        console.log(event);
+      } 
+    }
+
+    const displayEvent = (event) => { 
+      let newEvent = eventTemplate.content.cloneNode(true);
+      console.log(newEvent);
+      newEvent.querySelector(".card-title").innerText = event.event_name;
+      if(event.event_description != null) { 
+        newEvent.querySelector(".card-text").innerText = event.event_description;
+      }
+      eventTemplate.parentElement.appendChild(newEvent);
+    }
+    
+    getEvents();
+  </script>
+</body>
+
+</html>
